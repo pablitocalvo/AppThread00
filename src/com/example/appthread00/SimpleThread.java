@@ -1,22 +1,25 @@
 /**
  * @author paolo
  * 
- * @version  00.1 - Tentativo di fornire ai Thread il campo di testo dove poter 
- *                  scrivere
+ * @version  00.2 - Risoluzione del problema con Handler
+ * 
  *                  
  */
 
 package com.example.appthread00;
 
-import android.widget.TextView;
+import android.os.Handler;
+import android.os.Message;
 
 
 public class SimpleThread extends Thread {
 	
-	TextView t;
-	public SimpleThread(String threadName,TextView t ) {
+	Handler h ;
+	
+	
+    public SimpleThread(String threadName, Handler h ) {
 		super(threadName);
-		this.t = t;
+		this.h = h;
 	}
 
 
@@ -25,10 +28,12 @@ public class SimpleThread extends Thread {
     	for (int i = 0; i < 10; i++) 
     	{
 			// System.out.println(this.getName()+" "+ i ); 
-		    
-    		CharSequence old = t.getText();
-		    t.setText( old + "\n"+ this.getName()+" "+ i);
-		    
+    		
+    		Message messaggio = Message.obtain();
+    		messaggio.obj = new String(this.getName()+" "+ i);
+    		h.sendMessage(messaggio);
+    		
+           
     		try 
 		    {
 		    	sleep((int)(Math.random() * 1000));
@@ -36,8 +41,12 @@ public class SimpleThread extends Thread {
 		    catch (InterruptedException e) {}
     	}
     	// System.out.println( getName()+ " ha FINITO");
-    	CharSequence old = t.getText();
-    	t.setText( old + "\n"+ this.getName()+" ha FINITO");
+    	
+    	Message messaggio = Message.obtain();
+		messaggio.obj = new String(this.getName()+" ha FINITO");
+		h.sendMessage(messaggio);
+		
+    	
     }
     
 }
