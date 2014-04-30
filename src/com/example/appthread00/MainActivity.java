@@ -1,8 +1,8 @@
 /**
  * @author paolo
  * 
- * @version  00.0 - semplice "porting" di DueThread.java
- * 					i thread comunicano con System.Out.Println
+ * @version  00.1 - Tentativo di fornire ai Thread il campo di testo dove poter 
+ *                  scrivere
  * 
  */
 
@@ -13,17 +13,23 @@ import com.example.appthread00.R;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.widget.TextView;
 
 public class MainActivity extends Activity  {
 
-		
+	 
+	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		new SimpleThread("primoTask").start();
-		new SimpleThread("secondoTask").start();
+		TextView t = (TextView) findViewById(R.id.testo1);
+		t.setText("ciao Modno");
+		
+		new SimpleThread("primoTask", t ).start();
+		new SimpleThread("secondoTask", t ).start();
 	}
 
 	@Override
